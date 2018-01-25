@@ -1,0 +1,50 @@
+{
+  "name": "@4c/babel-preset-4catalyzer",
+  "version": "1.0.0",
+  "description": "4C babel preset",
+  "main": "index.js",
+  "repository": "https://github.com/4Catalyzer/babel-preset-4catalyzer.git",
+  "author": "Jason Quense <monastic.panic@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 8.3.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "printWidth": 79,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.38",
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.16.0",
+    "eslint-config-4catalyzer": "^0.3.3",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-prettier": "^2.5.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.1",
+    "prettier": "^1.10.2"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.38",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.38",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0-beta.38",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.38",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.38",
+    "@babel/preset-env": "^7.0.0-beta.38",
+    "@babel/preset-react": "^7.0.0-beta.38",
+    "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-react-intl": "^2.3.0"
+  }
+}
