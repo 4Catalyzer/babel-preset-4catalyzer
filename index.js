@@ -1,14 +1,22 @@
 const envPreset = require('@babel/preset-env');
 const reactPreset = require('@babel/preset-react');
+const pick = require('lodash/pick');
 const intlPreset = require('./intl-preset');
 
-const defaultOptions = {
-  target: 'web', // 'web-app' | 'node'
-  intl: false,
-  loose: true,
-  modules: 'commonjs',
-  shippedProposals: true,
-};
+const presetEnvOptions = [
+  'configPath',
+  'debug',
+  'exclude',
+  'forceAllTransforms',
+  'ignoreBrowserslistConfig',
+  'include',
+  'loose',
+  'modules',
+  'shippedProposals',
+  'spec',
+  'targets',
+  'useBuiltIns',
+];
 
 const defaultBrowsers = [
   'ie >= 11',
@@ -18,8 +26,18 @@ const defaultBrowsers = [
   'last 2 Safari versions',
 ];
 
+const defaultOptions = {
+  target: 'web', // 'web-app' | 'node'
+  intl: false,
+  loose: true,
+  modules: 'commonjs',
+  shippedProposals: true,
+  runtime: false,
+  browsers: defaultBrowsers,
+};
+
 function preset(_, explicitOptions = {}) {
-  const env = process.env.NODE_ENV || 'production'; // default to prod
+  const env = _.env() || 'production'; // default to prod
   const options = Object.assign({}, defaultOptions, explicitOptions);
   const { target } = options;
 
@@ -29,9 +47,7 @@ function preset(_, explicitOptions = {}) {
 
   const webTargets = {
     browsers:
-      env === 'production'
-        ? defaultBrowsers
-        : ['last 2 Chrome versions', 'last 2 Firefox versions'],
+      env === 'production' ? options.browsers : ['last 2 Chrome versions'],
   };
 
   if (target === 'web' || target === 'web-app') {
@@ -44,7 +60,10 @@ function preset(_, explicitOptions = {}) {
     ];
 
     // in a web app assume we are using webpack to handle modules
+    // and we want the runtime
     if (target === 'web-app') {
+      options.runtime =
+        explicitOptions.runtime == null ? true : explicitOptions.runtime;
       options.modules =
         explicitOptions.modules == null ? false : explicitOptions.modules;
     }
@@ -60,7 +79,7 @@ function preset(_, explicitOptions = {}) {
     options.modules = 'commonjs';
   }
 
-  const presets = [[envPreset, options], reactPreset];
+  const presets = [[envPreset, pick(options, presetEnvOptions)], reactPreset];
 
   if (options.intl) {
     const intlOpts =
@@ -88,6 +107,15 @@ function preset(_, explicitOptions = {}) {
   return {
     presets,
     plugins: [
+      options.runtime && [
+        require.resolve('@babel/plugin-transform-runtime'),
+        {
+          // leave polyfilling up to consumer, this should be a deliberate choice
+          useBuiltIns: true,
+          useESModules: options.modules === false,
+        },
+      ],
+
       // - stage 2 --
       require.resolve('@babel/plugin-syntax-dynamic-import'),
       [
