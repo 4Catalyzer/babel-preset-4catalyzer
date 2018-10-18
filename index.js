@@ -56,6 +56,7 @@ function getTargets(
   if (env !== 'production') {
     return target === 'node' ? { node: 'current' } : { esmodules: true };
   }
+  // TODO: distinguish between app and libraries for node as well
   if (target === 'node') return { node: '10.0' };
   if (
     ignoreBrowserslistConfig ||
