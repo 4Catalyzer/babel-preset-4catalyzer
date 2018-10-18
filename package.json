@@ -39,7 +39,6 @@
     "testEnvironment": "node"
   },
   "devDependencies": {
-    "@4c/babel-preset-4catalyzer": "file:../babel-preset-4catalyzer",
     "@4c/semantic-release-config": "^1.0.2",
     "@babel/cli": "^7.0.0-beta.53",
     "@babel/core": "^7.0.0-beta.53",

@@ -2,38 +2,6 @@
 # yarn lockfile v1
 
 
-"@4c/babel-preset-4catalyzer@file:.":
-  version "3.1.0"
-  dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
-    "@babel/plugin-proposal-export-default-from" "^7.0.0"
-    "@babel/plugin-proposal-export-namespace-from" "^7.0.0"
-    "@babel/plugin-proposal-optional-chaining" "^7.0.0"
-    "@babel/plugin-syntax-dynamic-import" "^7.0.0"
-    "@babel/plugin-transform-runtime" "^7.0.0"
-    "@babel/preset-env" "^7.0.0"
-    "@babel/preset-react" "^7.0.0"
-    babel-plugin-dev-expression "^0.2.1"
-    babel-plugin-react-intl "^2.3.0"
-    browserslist "^4.2.1"
-    lodash "^4.17.10"
-
-"@4c/babel-preset-4catalyzer@file:../babel-preset-4catalyzer":
-  version "3.1.0"
-  dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
-    "@babel/plugin-proposal-export-default-from" "^7.0.0"
-    "@babel/plugin-proposal-export-namespace-from" "^7.0.0"
-    "@babel/plugin-proposal-optional-chaining" "^7.0.0"
-    "@babel/plugin-syntax-dynamic-import" "^7.0.0"
-    "@babel/plugin-transform-runtime" "^7.0.0"
-    "@babel/preset-env" "^7.0.0"
-    "@babel/preset-react" "^7.0.0"
-    babel-plugin-dev-expression "^0.2.1"
-    babel-plugin-react-intl "^2.3.0"
-    browserslist "^4.2.1"
-    lodash "^4.17.10"
-
 "@4c/semantic-release-config@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@4c/semantic-release-config/-/semantic-release-config-1.0.2.tgz#68a9c2802e729c335a14970acd50d4549bad00f8"
