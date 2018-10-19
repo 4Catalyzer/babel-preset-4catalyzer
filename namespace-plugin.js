@@ -3,7 +3,7 @@ const DEFINE_MESSAGES = 'defineMessages';
 const COMPONENT_NAMES = ['FormattedMessage', 'FormattedHTMLMessage'];
 
 function getPrefix(state) {
-  let prefix = state.opts.prefix;
+  let { prefix } = state.opts;
   if (!prefix.endsWith(':')) prefix = `${prefix}:`;
   return prefix;
 }
@@ -31,7 +31,9 @@ module.exports = function namespacePlugin({ types: t }) {
         if (idAttr && !idAttr.node.value.value.startsWith(prefix)) {
           idAttr
             .get('value')
-            .replaceWith(t.StringLiteral(`${prefix}{idAttr.node.value.value}`));
+            .replaceWith(
+              t.StringLiteral(`${prefix}{idAttr.node.value.value}`),
+            );
         }
       },
 
