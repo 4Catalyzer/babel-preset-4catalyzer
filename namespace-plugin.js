@@ -2,34 +2,36 @@ const DEFINE_MESSAGES = 'defineMessages';
 
 const COMPONENT_NAMES = ['FormattedMessage', 'FormattedHTMLMessage'];
 
-module.exports = function namespacePlugin({ types: t }) {
-  function getPrefix(state) {
-    let PREFIX = state.opts.prefix;
-    if (!PREFIX.endsWith(':')) PREFIX = `${PREFIX}:`;
-  }
-  function referencesImport(path) {
-    if (!(path.isIdentifier() || path.isJSXIdentifier())) return false;
-    return COMPONENT_NAMES.some(name =>
-      path.referencesImport('react-intl', name),
-    );
-  }
+function getPrefix(state) {
+  let prefix = state.opts.prefix;
+  if (!prefix.endsWith(':')) prefix = `${prefix}:`;
+  return prefix;
+}
 
+function referencesImport(path) {
+  if (!(path.isIdentifier() || path.isJSXIdentifier())) return false;
+  return COMPONENT_NAMES.some(name =>
+    path.referencesImport('react-intl', name),
+  );
+}
+
+module.exports = function namespacePlugin({ types: t }) {
   return {
     visitor: {
       JSXOpeningElement(path, state) {
         const name = path.get('name');
         if (!referencesImport(name)) return;
 
-        const PREFIX = getPrefix(state);
+        const prefix = getPrefix(state);
 
         const idAttr = path
           .get('attributes')
           .find(attr => attr.isJSXAttribute() && attr.node.name.name === 'id');
 
-        if (idAttr && !idAttr.node.value.value.startsWith(PREFIX)) {
+        if (idAttr && !idAttr.node.value.value.startsWith(prefix)) {
           idAttr
             .get('value')
-            .replaceWith(t.StringLiteral(PREFIX + idAttr.node.value.value));
+            .replaceWith(t.StringLiteral(`${prefix}{idAttr.node.value.value}`));
         }
       },
 
@@ -40,7 +42,7 @@ module.exports = function namespacePlugin({ types: t }) {
           return;
         }
 
-        const PREFIX = getPrefix(state);
+        const prefix = getPrefix(state);
 
         function processMessageObject(messageObj) {
           if (!messageObj || !messageObj.isObjectExpression()) {
@@ -52,9 +54,9 @@ module.exports = function namespacePlugin({ types: t }) {
             .find(p => p.get('key').node.name === 'id')
             .get('value');
 
-          if (idProp && !idProp.node.value.startsWith(PREFIX)) {
+          if (idProp && !idProp.node.value.startsWith(prefix)) {
             idProp.replaceWith(
-              t.StringLiteral(PREFIX + idProp.node.value), // eslint-disable-line new-cap
+              t.StringLiteral(`${prefix}{idProp.node.value}`), // eslint-disable-line new-cap
             );
           }
         }
